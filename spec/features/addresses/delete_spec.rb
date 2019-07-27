@@ -38,9 +38,10 @@ RSpec.describe "User Profile Path" do
 
       expect(@address.orders.first).to eq(order)
       expect(@address.shipped_orders.empty?).to eq(false)
-      expect(page).to have_css("address-#{@address.id}")
-      expect(page).to have_content(@address.address)
-      expect(page).to have_content("#{@address.city} #{@address.state} #{@address.zip}")
+      within "#address-#{@address.id}" do
+        expect(page).to have_content(@address.address)
+        expect(page).to have_content("#{@address.city} #{@address.state} #{@address.zip}")
+      end
     end
   end
 end
