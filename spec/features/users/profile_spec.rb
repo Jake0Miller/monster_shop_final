@@ -4,9 +4,9 @@ RSpec.describe "User Profile Path" do
   describe "As a registered user" do
     before :each do
       @user = User.create!(name: 'Megan', email: 'megan@example.com', password: 'securepassword')
-      @user_address = @user.addresses.create!(nickname: 'Home', address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218)
+      @user_address_1 = @user.addresses.create!(nickname: 'Home', address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218)
+      @user_address_2 = @user.addresses.create!(nickname: 'Work', address: '111 Pine St', city: 'Denver', state: 'CO', zip: 80218)
       @admin = User.create!(name: 'Megan', email: 'admin@example.com', password: 'securepassword')
-      @admin_address = @admin.addresses.create!(nickname: 'Home', address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218)
     end
 
     it "I can view my profile page" do
@@ -15,10 +15,26 @@ RSpec.describe "User Profile Path" do
 
       expect(page).to have_content(@user.name)
       expect(page).to have_content(@user.email)
-      expect(page).to have_content(@user_address.address)
-      expect(page).to have_content("#{@user_address.city} #{@user_address.state} #{@user_address.zip}")
       expect(page).to_not have_content(@user.password)
-      expect(page).to have_link('Edit')
+      expect(page).to have_link('Edit Profile')
+      expect(page).to have_link('Change Password')
+      expect(page).to have_link('My Orders')
+
+      within "#address-#{@user_address_1.id}" do
+        expect(page).to have_content(@user_address_1.nickname)
+        expect(page).to have_content(@user_address_1.address)
+        expect(page).to have_content("#{@user_address_1.city} #{@user_address_1.state} #{@user_address_1.zip}")
+        expect(page).to have_link("Edit Address")
+        expect(page).to have_link("Delete Address")
+      end
+
+      within "#address-#{@user_address_2.id}" do
+        expect(page).to have_content(@user_address_2.nickname)
+        expect(page).to have_content(@user_address_2.address)
+        expect(page).to have_content("#{@user_address_2.city} #{@user_address_2.state} #{@user_address_2.zip}")
+        expect(page).to have_link("Edit Address")
+        expect(page).to have_link("Delete Address")
+      end
     end
 
     it "I can update my profile data" do
@@ -28,7 +44,7 @@ RSpec.describe "User Profile Path" do
       fill_in 'Password', with: @user.password
       click_button 'Log In'
 
-      click_link 'Edit'
+      click_link 'Edit Profile'
 
       expect(current_path).to eq('/profile/edit')
 
@@ -44,8 +60,8 @@ RSpec.describe "User Profile Path" do
       expect(page).to have_content('Profile has been updated!')
       expect(page).to have_content(name)
       expect(page).to have_content(email)
-      expect(page).to have_content(@user_address.address)
-      expect(page).to have_content("#{@user_address.city} #{@user_address.state} #{@user_address.zip}")
+      expect(page).to have_content(@user_address_1.address)
+      expect(page).to have_content("#{@user_address_1.city} #{@user_address_1.state} #{@user_address_1.zip}")
     end
 
     it "I can update my password" do

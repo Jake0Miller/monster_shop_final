@@ -2,7 +2,11 @@
 <p><%= @user.email %></p>
 
 <% @user.addresses.each do |address| %>
-  <p><%= address.nickname %></p>
-  <p><%= address.address %></p>
-  <p><%= address.city %> <%= address.state %> <%= address.zip %></p>
+  <section id='address-<%= address.id %>'>
+    <p><%= address.nickname %></p>
+    <p><%= address.address %></p>
+    <p><%= address.city %> <%= address.state %> <%= address.zip %></p>
+    <%= link_to 'Edit Address', edit_address_path(address) %>
+    <%= link_to 'Delete Address', address_path(address), method: :delete %>
+  </section>
 <% end %>
