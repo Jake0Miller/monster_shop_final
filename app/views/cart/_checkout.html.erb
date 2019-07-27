@@ -1,0 +1,21 @@
+<section id='checkout'>
+  <% if current_user %>
+    <% if current_user.addresses.empty? %>
+      <p>You must <%= link_to 'add an address', new_address_path %> to checkout.</p>
+    <% else %>
+      <%= form_for @order do |f| %>
+
+        <% current_user.addresses.each do |address| %>
+            <%= f.radio_button :address_id, address.id %>
+            <%= f.label :address_id, address.nickname %><br/>
+        <% end %>
+
+        <%= link_to 'New Address', new_address_path %>
+
+        <%= f.submit 'Check Out' %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <p>You must <%= link_to 'register', registration_path %> or <%= link_to 'log in', login_path %> to checkout.</p>
+  <% end %>
+</section>
