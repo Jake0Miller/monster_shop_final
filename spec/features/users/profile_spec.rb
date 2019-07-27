@@ -35,6 +35,8 @@ RSpec.describe "User Profile Path" do
         expect(page).to have_link("Edit Address")
         expect(page).to have_link("Delete Address")
       end
+
+      expect(page).to have_link("New Address")
     end
 
     it "I can update my profile data" do

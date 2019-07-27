@@ -1,6 +1,20 @@
 class AddressesController < ApplicationController
   before_action :set_address, only: [:edit, :update, :destroy]
 
+  def new
+    @address = Address.new
+  end
+
+  def create
+    @address = current_user.addresses.new(address_params)
+    if @address.save
+      redirect_to profile_path
+    else
+      generate_flash(@address)
+      render :new
+    end
+  end
+
   def edit
   end
 

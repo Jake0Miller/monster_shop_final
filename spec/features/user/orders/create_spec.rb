@@ -10,11 +10,11 @@ RSpec.describe 'Create Order' do
       @giant = @megan.items.create!(name: 'Giant', description: "I'm a Giant!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 3 )
       @hippo = @brian.items.create!(name: 'Hippo', description: "I'm a Hippo!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 3 )
       @user = User.create!(name: 'Megan', email: 'megan@example.com', password: 'securepassword')
-      @address = @user.addresses.create!(nickname: 'Home', address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218)
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
     end
 
     it 'I can click a link to get to create an order' do
+      address = @user.addresses.create!(nickname: 'Home', address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218)
       visit item_path(@ogre)
       click_button 'Add to Cart'
       visit item_path(@hippo)
@@ -22,7 +22,7 @@ RSpec.describe 'Create Order' do
       visit item_path(@hippo)
       click_button 'Add to Cart'
       visit '/cart'
-      choose("order_address_id_#{@address.id}")
+      choose("order_address_id_#{address.id}")
       click_button 'Check Out'
       order = Order.last
 
@@ -33,6 +33,23 @@ RSpec.describe 'Create Order' do
       within "#order-#{order.id}" do
         expect(page).to have_link(order.id.to_s)
       end
+    end
+
+    it 'I cannot check out if I deleted all my addresses' do
+      visit item_path(@ogre)
+      click_button 'Add to Cart'
+      visit item_path(@hippo)
+      click_button 'Add to Cart'
+      visit item_path(@hippo)
+      click_button 'Add to Cart'
+      visit '/cart'
+
+      within '#checkout' do
+        expect(page).to_not have_content('Home')
+        expect(page).to have_content("You must add an address to checkout.")
+        click_link 'add an address'
+      end
+      expect(current_path).to eq(new_address_path)
     end
   end
 
