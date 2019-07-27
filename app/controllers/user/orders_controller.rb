@@ -10,15 +10,15 @@ class User::OrdersController < ApplicationController
   end
 
   def create
-    order = current_user.orders.new
+    order = current_user.orders.new(order_params)
     order.save
-      cart.items.each do |item|
-        order.order_items.create({
-          item: item,
-          quantity: cart.count_of(item.id),
-          price: item.price
-          })
-      end
+    cart.items.each do |item|
+      order.order_items.create({
+        item: item,
+        quantity: cart.count_of(item.id),
+        price: item.price,
+        })
+    end
     session.delete(:cart)
     flash[:notice] = "Order created successfully!"
     redirect_to '/profile/orders'
@@ -28,5 +28,11 @@ class User::OrdersController < ApplicationController
     order = current_user.orders.find(params[:id])
     order.cancel
     redirect_to "/profile/orders/#{order.id}"
+  end
+
+  private
+
+  def order_params
+    params.require(:order).permit(:address_id)
   end
 end

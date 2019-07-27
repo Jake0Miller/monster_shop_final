@@ -10,20 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190726184259) do
+ActiveRecord::Schema.define(version: 20190726221848) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "addresses", force: :cascade do |t|
-    t.string "nickname"
+    t.string "nickname", default: "Home"
     t.string "address"
     t.string "city"
     t.string "state"
     t.integer "zip"
-    t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_addresses_on_user_id"
   end
 
   create_table "items", force: :cascade do |t|
@@ -67,6 +68,8 @@ ActiveRecord::Schema.define(version: 20190726184259) do
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.integer "status", default: 0
+    t.bigint "address_id"
+    t.index ["address_id"], name: "index_orders_on_address_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
@@ -82,10 +85,6 @@ ActiveRecord::Schema.define(version: 20190726184259) do
 
   create_table "users", force: :cascade do |t|
     t.string "name"
-    t.string "address"
-    t.string "city"
-    t.string "state"
-    t.integer "zip"
     t.string "email"
     t.string "password_digest"
     t.datetime "created_at", null: false
@@ -95,9 +94,11 @@ ActiveRecord::Schema.define(version: 20190726184259) do
     t.index ["merchant_id"], name: "index_users_on_merchant_id"
   end
 
+  add_foreign_key "addresses", "users"
   add_foreign_key "items", "merchants"
   add_foreign_key "order_items", "items"
   add_foreign_key "order_items", "orders"
+  add_foreign_key "orders", "addresses"
   add_foreign_key "orders", "users"
   add_foreign_key "reviews", "items"
   add_foreign_key "users", "merchants"

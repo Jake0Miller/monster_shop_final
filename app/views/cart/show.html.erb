@@ -1,8 +1,10 @@
 <h2>My Cart</h2>
+
 <% if cart.items.empty? %>
   <p>Your Cart is Empty!</p>
 <% else %>
-<h3>Total: <%= number_to_currency(cart.grand_total) %></h3>
+  <h3>Total: <%= number_to_currency(cart.grand_total) %></h3>
+
   <% cart.items.each do |item| %>
     <section id='item-<%= item.id%>'>
       <h2><%= link_to item.name, "/items/#{item.id}" %></h2>
@@ -16,12 +18,23 @@
       <%= button_to 'Remove', "/cart/#{item.id}", method: :delete %>
     </section>
   <% end %>
+
   <section id='checkout'>
     <% if current_user %>
-      <%= button_to 'Check Out', '/orders' %>
+      <%= form_for @order do |f| %>
+
+        <% current_user.addresses.each do |address| %>
+            <%= f.radio_button :address_id, address.id %>
+            <%= f.label :address_id, address.nickname %><br/>
+        <% end %>
+
+        <%= f.submit 'Check Out' %>
+
+      <% end %>
     <% else %>
       <p>You must <%= link_to 'register', registration_path %> or <%= link_to 'log in', login_path %> to checkout.</p>
     <% end %>
   </section>
+
   <%= button_to 'Empty Cart', '/cart', method: :delete %>
 <% end %>
