@@ -24,6 +24,15 @@ class User::OrdersController < ApplicationController
     redirect_to '/profile/orders'
   end
 
+  def edit
+    @order = current_user.orders.find(params[:id])
+  end
+
+  def update
+    order = current_user.orders.find(params[:id])
+    order.update_attributes(order_params)
+  end
+
   def cancel
     order = current_user.orders.find(params[:id])
     order.cancel
