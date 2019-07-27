@@ -27,6 +27,8 @@ Rails.application.routes.draw do
   post '/orders', to: 'user/orders#create'
   get '/profile/orders', to: 'user/orders#index'
   get '/profile/orders/:id', to: 'user/orders#show'
+  get '/profile/orders/:id/edit', to: 'user/orders#edit', as: :edit_order
+  patch 'profile/orders/:id', to: 'user/orders#update', as: :order
   delete '/profile/orders/:id', to: 'user/orders#cancel'
 
   get '/login', to: 'sessions#new'

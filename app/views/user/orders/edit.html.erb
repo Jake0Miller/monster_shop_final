@@ -1,0 +1,11 @@
+<h1>Select Address</h1>
+
+<%= form_for @order do |f| %>
+
+  <% current_user.addresses.each do |address| %>
+      <%= f.radio_button :address_id, address.id %>
+      <%= f.label :address_id, address.nickname %><br/>
+  <% end %>
+
+  <%= f.submit 'Select Address' %>
+<% end %>

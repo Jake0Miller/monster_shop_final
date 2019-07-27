@@ -4,7 +4,16 @@
 <p>Status: <%= @order.status %></p>
 <p><%= @order.count_of_items %> items</p>
 <p>Total: <%= number_to_currency(@order.grand_total) %></p>
+
+<h2>Shipping Information</h2>
+<section class='address'>
+  <p><%= @order.address.nickname %></p>
+  <p><%= @order.address.address %></p>
+  <p><%= @order.address.city %> <%= @order.address.state %> <%= @order.address.zip %></p>
+</section>
+
 <%= button_to 'Cancel Order', "/profile/orders/#{@order.id}", method: :delete if @order.pending? %>
+<%= button_to 'Change Address', edit_order_path(@order.id), method: :get unless @order.shipped? || @order.shipped? %>
 
 <h2>Order Items</h2>
 <% @order.order_items.each do |order_item| %>
