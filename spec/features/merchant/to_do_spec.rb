@@ -43,10 +43,10 @@ RSpec.describe 'Merchant Dashboard' do
     it 'I can see my unfulfilled items' do
       visit merchant_to_do_list_path
       within '.unfulfilled-items' do
-        expect(page).to have_content('You have 6 unfulfilled items in 2 orders worth $240.50')
-        expect(page).to have_link(@order_1.id)
-        expect(page).to have_link(@order_2.id)
-        click_link @order_1.id
+        expect(page).to have_content('You have 2 unfulfilled orders worth $240.50')
+        expect(page).to have_link("Order ##{@order_1.id.to_s}")
+        expect(page).to have_link("Order ##{@order_2.id.to_s}")
+        click_link @order_1.id.to_s
         expect(current_path).to eq(merchant_order_path(@order_1))
       end
     end

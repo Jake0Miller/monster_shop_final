@@ -38,4 +38,10 @@ class Merchant < ApplicationRecord
   def default_image_items
     items.where(image: DEFAULT_IMAGE)
   end
+
+  def unfulfilled_orders
+    order_items.where(fulfilled: false)
+               .select('order_items.order_id, sum(order_items.quantity * order_items.price) AS value')
+               .group(:order_id)
+  end
 end

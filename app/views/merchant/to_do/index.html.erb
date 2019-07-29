@@ -1,7 +1,11 @@
 <h1>To Do List</h1>
 
 <section class='unfulfilled-items'>
-
+  <% orders_string = "#{pluralize(@num_orders, 'unfulfilled order')}" %>
+  <h2>You have <%= orders_string %> worth <%= number_to_currency(@value) %></h2>
+  <% @unfulfilled_orders.each do |order| %>
+    <p><%= link_to "Order ##{order.order_id.to_s}", merchant_order_path(order.order_id.to_s) %></p>
+  <% end %>
 </section>
 
 <section class='items-needing-images'>
