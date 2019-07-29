@@ -55,6 +55,7 @@ class Merchant::ItemsController < Merchant::BaseController
   private
 
   def item_params
+    params.delete(:image) if params[:image] == ''
     params.permit(:name, :description, :price, :image, :inventory)
   end
 end
