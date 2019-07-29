@@ -64,7 +64,6 @@ RSpec.describe 'New Merchant Item' do
       expect(current_path).to eq("/merchant/items")
       expect(page).to have_link(@name)
       expect(page).to have_content(@description)
-      save_and_open_page
       expect(Item.last.image).to eq("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw")
       expect(page).to have_content("Price: #{number_to_currency(@price)}")
       expect(page).to have_content("Active")

@@ -7,9 +7,9 @@ RSpec.describe 'Merchant Dashboard' do
       @brian = Merchant.create!(name: 'Brians Bagels', address: '125 Main St', city: 'Denver', state: 'CO', zip: 80218)
       @merchant_admin = @megan.users.create!(name: 'Megan', email: 'megan@example.com', password: 'securepassword')
       @address = @merchant_admin.addresses.create!(nickname: 'Home', address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218)
-      @ogre = @megan.items.create!(name: 'Ogre', description: "I'm an Ogre!", price: 20.25, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 5 )
-      @giant = @megan.items.create!(name: 'Giant', description: "I'm a Giant!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 3 )
-      @hippo = @brian.items.create!(name: 'Hippo', description: "I'm a Hippo!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 1 )
+      @ogre = @megan.items.create!(name: 'Ogre', description: "I'm an Ogre!", price: 20.25, inventory: 5 )
+      @giant = @megan.items.create!(name: 'Giant', description: "I'm a Giant!", price: 50, image: 'https://i.pinimg.com/originals/bd/05/d3/bd05d3a70317c9465f6e1564a8a8bd8b.jpg', inventory: 3 )
+      @hippo = @brian.items.create!(name: 'Hippo', description: "I'm a Hippo!", price: 50, image: 'https://i.ytimg.com/vi/6JxQtHK_9OI/maxresdefault.jpg', inventory: 1 )
       @order_1 = @merchant_admin.orders.create!(status: "pending", address: @address)
       @order_2 = @merchant_admin.orders.create!(status: "pending", address: @address)
       @order_3 = @merchant_admin.orders.create!(status: "pending", address: @address)
@@ -25,6 +25,18 @@ RSpec.describe 'Merchant Dashboard' do
 
     it 'I can see a link to my To Do List' do
       expect(page).to have_link('To Do List')
+
+      click_link('To Do List')
+
+      expect(current_path).to eq(to_do_list_path)
+    end
+
+    it 'I can link to item edit pages that need new images' do
+      within '.items-needing-images' do
+        expect(page).to have_link(@ogre.name)
+        click_link @ogre.name
+        expect(current_path).to eq(edit_merchant_item(@ogre))
+      end
     end
   end
 end
