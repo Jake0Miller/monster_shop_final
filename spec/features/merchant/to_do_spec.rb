@@ -12,11 +12,10 @@ RSpec.describe 'Merchant Dashboard' do
       @hippo = @brian.items.create!(name: 'Hippo', description: "I'm a Hippo!", price: 50, image: 'https://i.ytimg.com/vi/6JxQtHK_9OI/maxresdefault.jpg', inventory: 1 )
       @order_1 = @merchant_admin.orders.create!(status: "pending", address: @address)
       @order_2 = @merchant_admin.orders.create!(status: "pending", address: @address)
-      @order_3 = @merchant_admin.orders.create!(status: "pending", address: @address)
-      @order_item_1 = @order_1.order_items.create!(item: @hippo, price: @hippo.price, quantity: 2, fulfilled: false)
-      @order_item_2 = @order_2.order_items.create!(item: @hippo, price: @hippo.price, quantity: 2, fulfilled: true)
+      @order_item_1 = @order_1.order_items.create!(item: @giant, price: @giant.price, quantity: 2, fulfilled: false)
+      @order_item_2 = @order_2.order_items.create!(item: @hippo, price: @hippo.price, quantity: 2, fulfilled: false)
       @order_item_3 = @order_2.order_items.create!(item: @ogre, price: @ogre.price, quantity: 2, fulfilled: false)
-      @order_item_4 = @order_3.order_items.create!(item: @giant, price: @giant.price, quantity: 2, fulfilled: false)
+      @order_item_4 = @order_2.order_items.create!(item: @giant, price: @giant.price, quantity: 2, fulfilled: false)
       visit login_path
       fill_in 'Email', with: @merchant_admin.email
       fill_in 'Password', with: @merchant_admin.password
@@ -28,14 +27,27 @@ RSpec.describe 'Merchant Dashboard' do
 
       click_link('To Do List')
 
-      expect(current_path).to eq(to_do_list_path)
+      expect(current_path).to eq(merchant_to_do_list_path)
+      expect(page).to have_content('To Do List')
     end
 
     it 'I can link to item edit pages that need new images' do
+      visit merchant_to_do_list_path
       within '.items-needing-images' do
         expect(page).to have_link(@ogre.name)
         click_link @ogre.name
-        expect(current_path).to eq(edit_merchant_item(@ogre))
+        expect(current_path).to eq(edit_merchant_item_path(@ogre))
+      end
+    end
+
+    it 'I can see my unfulfilled items' do
+      visit merchant_to_do_list_path
+      within '.unfulfilled-items' do
+        expect(page).to have_content('You have 6 unfulfilled items in 2 orders worth $240.50')
+        expect(page).to have_link(@order_1.id)
+        expect(page).to have_link(@order_2.id)
+        click_link @order_1.id
+        expect(current_path).to eq(merchant_order_path(@order_1))
       end
     end
   end
