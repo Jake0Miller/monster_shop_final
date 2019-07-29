@@ -9,8 +9,6 @@ class Item < ApplicationRecord
                         :price,
                         :inventory
 
-  DEFAULT_IMAGE = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw"
-
   def self.active_items
     where(active: true)
   end

@@ -10,6 +10,8 @@ class Merchant < ApplicationRecord
                         :state,
                         :zip
 
+  DEFAULT_IMAGE = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw"
+
   def item_count
     items.count
   end
@@ -31,5 +33,9 @@ class Merchant < ApplicationRecord
 
   def order_items_by_order(order_id)
     order_items.where(order_id: order_id)
+  end
+
+  def default_image_items
+    items.where(image: DEFAULT_IMAGE)
   end
 end
