@@ -13,3 +13,21 @@
  *= require_tree .
  *= require_self
  */
+
+.deepshd { font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic";
+  font-size: 140px;
+  text-align: center; }
+
+.jumbotron { background-color: LightGrey; }
+
+.details-card { background: #ecf0f1; }
+
+.card-content { background: #ffffff;
+  width: 42vh;
+ 	box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12); }
+
+.card-header h1 { font-weight: 600 !important; }
+
+.card-img img { width: 42vh; height: 55vh; }
+
+.center { text-align: center; }

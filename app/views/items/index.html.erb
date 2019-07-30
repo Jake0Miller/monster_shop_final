@@ -1,7 +1,9 @@
 <% if @merchant %>
   <h1>All Items From <%= link_to @merchant.name, "/merchant/#{@merchant.id}" %></h1>
 <% else %>
-  <h1>All Items</h1>
+  <div class="jumbotron jumbotron-fluid">
+    <h2 class="deepshd">All Items</h2>
+  </div>
 <% end %>
 
 <%= render 'index' %>
