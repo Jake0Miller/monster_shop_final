@@ -1,0 +1,13 @@
+<ul class="navbar-nav mr-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="/items">Items</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/merchants">Merchants</a>
+  </li>
+  <% if current_admin? %>
+    <li class="nav-item">
+      <a class="nav-link" href="/admin/users">Users</a>
+    </li>
+  <% end %>
+</ul>
