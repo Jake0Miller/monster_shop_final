@@ -28,4 +28,9 @@ class Item < ApplicationRecord
   def average_rating
     reviews.average(:rating)
   end
+
+  def exceeds_inventory?
+    ordered = order_items.sum(:quantity)
+    ordered > inventory
+  end
 end

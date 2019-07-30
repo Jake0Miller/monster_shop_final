@@ -43,4 +43,9 @@ class Order < ApplicationRecord
   def self.by_status
     order(:status)
   end
+
+  def items_in_excess
+    order_items.joins("JOIN items ON order_items.item_id = items.id")
+               .where('order_items.quantity > items.inventory')
+  end
 end

@@ -73,5 +73,10 @@ RSpec.describe Item do
       expect(Item.by_popularity(3, "ASC")).to eq([@giant, @gator, @ogre])
       expect(Item.by_popularity(3, "DESC")).to eq([@hippo, @nessie, @ogre])
     end
+
+    it '.exceeds_inventory?' do
+      expect(@ogre.exceeds_inventory?).to eq(false)
+      expect(@giant.exceeds_inventory?).to eq(false)
+    end
   end
 end
