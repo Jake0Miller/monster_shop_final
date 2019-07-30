@@ -3,6 +3,7 @@
 <p><%= @merchant.city %> <%= @merchant.state %> <%= @merchant.zip %></p>
 
 <%= link_to 'My Items', '/merchant/items' %>
+<%= link_to 'To Do List', merchant_to_do_list_path %>
 
 <section class="orders">
   <% @merchant.pending_orders.each do |order| %>
@@ -11,6 +12,9 @@
       <p>Potential Revenue: <%= order.merchant_subtotal(@merchant.id) %></p>
       <p>Quantity of Items: <%= order.merchant_quantity(@merchant.id) %></p>
       <p>Created: <%= order.created_at %></p>
+      <% unless order.items_in_excess.empty? %>
+        <p>WARNING: Item ordered exceeds current inventory!</p>
+      <% end %>
     </section>
   <% end %>
 </section>

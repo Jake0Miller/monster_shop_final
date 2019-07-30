@@ -32,8 +32,8 @@ RSpec.describe Merchant do
       @order_3 = @user_2.orders.create!(status: 1, address: @address_2)
       @order_item_1 = @order_1.order_items.create!(item: @ogre, price: @ogre.price, quantity: 2)
       @order_item_2 = @order_1.order_items.create!(item: @hippo, price: @hippo.price, quantity: 3)
-      @order_item_3 = @order_2.order_items.create!(item: @giant, price: @hippo.price, quantity: 2)
-      @order_item_4 = @order_2.order_items.create!(item: @ogre, price: @hippo.price, quantity: 2)
+      @order_item_3 = @order_2.order_items.create!(item: @giant, price: @giant.price, quantity: 2)
+      @order_item_4 = @order_2.order_items.create!(item: @ogre, price: @ogre.price, quantity: 2)
     end
 
     it '.item_count' do
@@ -57,6 +57,21 @@ RSpec.describe Merchant do
 
     it '.order_items_by_order' do
       expect(@megan.order_items_by_order(@order_1.id)).to eq([@order_item_1])
+    end
+
+    it '.default_image_items' do
+      expect(@megan.default_image_items.length).to eq(2)
+      expect(@brian.default_image_items.length).to eq(1)
+    end
+
+    it '.unfulfilled_orders' do
+      test = @megan.unfulfilled_orders
+      expect(test.length).to eq(2)
+      expect(test.first.value).to eq(40.50)
+      expect(test.last.value).to eq(140.50)
+      test = @brian.unfulfilled_orders
+      expect(test.length).to eq(1)
+      expect(test.last.value).to eq(150)
     end
   end
 end

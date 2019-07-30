@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  get :root, to: 'welcome#index'
+  get '/', to: 'welcome#index', as: :root
 
   resources :merchants do
     resources :items, only: [:index]
@@ -37,6 +37,7 @@ Rails.application.routes.draw do
 
   namespace :merchant do
     get '/', to: 'dashboard#index', as: :dashboard
+    get '/to-do-list', to: 'to_do#index', as: :to_do_list
     resources :orders, only: :show
     resources :items, only: [:index, :new, :create, :edit, :update, :destroy]
     put '/items/:id/change_status', to: 'items#change_status'

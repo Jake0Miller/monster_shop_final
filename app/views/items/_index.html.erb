@@ -18,6 +18,9 @@
     <p>Sold by: <%= link_to item.merchant.name, "/merchants/#{item.merchant_id}" %>, Inventory: <%= item.inventory %></p>
     <p><%= item.active ? "Active" : "Inactive" %></p>
     <% if current_merchant_user? %>
+      <% if item.exceeds_inventory? %>
+        <p>"WARNING: Items ordered exceeds inventory"</p>
+      <% end %>
       <% if item.active? %>
         <%= button_to 'Inactivate', "/merchant/items/#{item.id}/change_status", method: :put %>
       <% elsif !item.active? %>

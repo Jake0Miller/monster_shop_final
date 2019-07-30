@@ -313,16 +313,6 @@ RSpec.describe 'Site Navigation' do
         expect(current_path).to eq(root_path)
       end
 
-      it 'my profile page' do
-        visit root_path
-
-        within 'nav' do
-          click_link 'Profile'
-        end
-
-        expect(current_path).to eq(profile_path)
-      end
-
       it 'my merchant page' do
         visit root_path
 

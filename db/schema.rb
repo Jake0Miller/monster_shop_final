@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 20190726221848) do
     t.string "description"
     t.float "price"
     t.integer "inventory"
-    t.string "image"
+    t.string "image", default: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw"
     t.boolean "active", default: true
     t.bigint "merchant_id"
     t.datetime "created_at", null: false

@@ -11,7 +11,6 @@ RSpec.describe Item do
   describe 'Validations' do
     it {should validate_presence_of :name}
     it {should validate_presence_of :description}
-    it {should validate_presence_of :image}
     it {should validate_presence_of :price}
     it {should validate_presence_of :inventory}
   end
@@ -73,6 +72,11 @@ RSpec.describe Item do
       expect(Item.by_popularity).to eq([@hippo, @nessie, @ogre, @gator, @giant])
       expect(Item.by_popularity(3, "ASC")).to eq([@giant, @gator, @ogre])
       expect(Item.by_popularity(3, "DESC")).to eq([@hippo, @nessie, @ogre])
+    end
+
+    it '.exceeds_inventory?' do
+      expect(@ogre.exceeds_inventory?).to eq(false)
+      expect(@giant.exceeds_inventory?).to eq(false)
     end
   end
 end

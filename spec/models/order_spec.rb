@@ -66,6 +66,10 @@ RSpec.describe Order do
       expect(@order_1.status).to eq('packaged')
       expect(@order_2.status).to eq('pending')
     end
+
+    it '.items_in_excess' do
+      expect(@order_1.items_in_excess).to eq([@order_item_1])
+    end
   end
 
   describe 'class methods' do

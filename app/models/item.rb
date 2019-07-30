@@ -6,7 +6,6 @@ class Item < ApplicationRecord
 
   validates_presence_of :name,
                         :description,
-                        :image,
                         :price,
                         :inventory
 
@@ -28,5 +27,10 @@ class Item < ApplicationRecord
 
   def average_rating
     reviews.average(:rating)
+  end
+
+  def exceeds_inventory?
+    ordered = order_items.sum(:quantity)
+    ordered > inventory
   end
 end
