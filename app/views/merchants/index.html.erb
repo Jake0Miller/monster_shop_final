@@ -1,12 +1,39 @@
-<%= link_to 'New Merchant', '/merchants/new' %>
-<% @merchants.each do |merchant| %>
-  <section id='merchant-<%= merchant.id %>'>
-    <% if current_admin? %>
-      <h2><%= link_to merchant.name, "/admin/merchants/#{merchant.id}" %></h2>
-      <%= button_to 'Disable', "/admin/merchants/#{merchant.id}", method: :patch if merchant.enabled? %>
-      <%= button_to 'Enable', "/admin/merchants/#{merchant.id}", method: :patch if !merchant.enabled? %>
-    <% else %>
-      <h2><%= link_to merchant.name, "/merchants/#{merchant.id}" %></h2>
-    <% end %>
-  </section>
-<% end %>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<div class="jumbotron jumbotron-fluid">
+    <h2 class="deepshd">Merchants</h2>
+</div>
+
+<p class="lead">
+  <div class='center'>
+    <a class="btn btn-primary btn-lg" href='/merchants/new' role="button">New Merchant</a>
+  </div>
+</p>
+
+<section class="details-card">
+  <div class="container-fluid">
+    <div class="row">
+      <% @merchants.each do |merchant| %>
+        <div class="col-md-4 p-3">
+          <section class='card-content' id='merchant-<%= merchant.id %>'>
+            <div class="card-img text-center">
+              <% if current_admin? %>
+                <div class="card-header">
+                  <h1 class="card-title text-center"><%= link_to (merchant.name), merchant_path(merchant), {:style=>"color:black;"} %></h1>
+                </div>
+                <%= button_to 'Disable', "/admin/merchants/#{merchant.id}", method: :patch if merchant.enabled? %>
+                <%= button_to 'Enable', "/admin/merchants/#{merchant.id}", method: :patch if !merchant.enabled? %>
+              <% else %>
+                <div class="card-header">
+                  <h1 class="card-title text-center"><%= link_to (merchant.name), merchant_path(merchant), {:style=>"color:black;"} %></h1>
+                </div>
+              <% end %>
+            </div>
+          </section>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>

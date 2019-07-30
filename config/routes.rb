@@ -31,9 +31,9 @@ Rails.application.routes.draw do
   patch 'profile/orders/:id', to: 'user/orders#update', as: :order
   delete '/profile/orders/:id', to: 'user/orders#cancel'
 
-  get '/login', to: 'sessions#new'
+  get '/login', to: 'sessions#new', as: :login
   post '/login', to: 'sessions#login'
-  get '/logout', to: 'sessions#logout'
+  get '/logout', to: 'sessions#logout', as: :logout
 
   namespace :merchant do
     get '/', to: 'dashboard#index', as: :dashboard

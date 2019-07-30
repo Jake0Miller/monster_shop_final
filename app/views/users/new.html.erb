@@ -1,27 +1,45 @@
-<%= form_for @user do |f| %>
-  <%= f.label :name %>
-  <%= f.text_field :name %>
+<div class="container">
+  <%= form_for @user do |f| %>
+    <div class="form-group">
+      <%= f.label :name %>
+      <%= f.text_field :name %>
+    </div>
 
-  <%= label_tag :address %>
-  <%= text_field_tag :address %>
+    <div class="form-group">
+      <%= label_tag :address %>
+      <%= text_field_tag :address %>
+    </div>
 
-  <%= label_tag :city %>
-  <%= text_field_tag :city %>
+    <div class="form-group">
+      <%= label_tag :city %>
+      <%= text_field_tag :city %>
+    </div>
 
-  <%= label_tag :state %>
-  <%= text_field_tag :state %>
+    <div class="form-group">
+      <%= label_tag :state %>
+      <%= text_field_tag :state %>
+    </div>
 
-  <%= label_tag :zip %>
-  <%= text_field_tag :zip %>
+    <div class="form-group">
+      <%= label_tag :zip %>
+      <%= text_field_tag :zip %>
+    </div>
 
-  <%= f.label :email %>
-  <%= f.email_field :email %>
+    <div class="form-group">
+      <%= f.label :email %>
+      <%= f.email_field :email %>
+    </div>
 
-  <%= f.label :password %>
-  <%= f.password_field :password %>
+    <div class="form-group">
+      <%= f.label :password %>
+      <%= f.password_field :password %>
+    </div>
 
-  <%= f.label :password_confirmation %>
-  <%= f.password_field :password_confirmation %>
+    <div class="form-group">
+      <%= f.label :password_confirmation %>
+      <%= f.password_field :password_confirmation %>
+    </div>
 
-  <%= f.submit 'Register' %>
-<% end %>
+    <%= f.submit 'Register', class:'btn btn-primary' %>
+  <% end %>
+</div>
