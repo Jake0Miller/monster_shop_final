@@ -21,7 +21,7 @@
             <div class="card-img text-center">
               <% if current_admin? %>
                 <div class="card-header">
-                  <h1 class="card-title text-center"><%= link_to (merchant.name), merchant_path(merchant), {:style=>"color:black;"} %></h1>
+                  <h1 class="card-title text-center"><%= link_to (merchant.name), admin_merchant_path(merchant), {:style=>"color:black;"} %></h1>
                 </div>
                 <%= button_to 'Disable', "/admin/merchants/#{merchant.id}", method: :patch if merchant.enabled? %>
                 <%= button_to 'Enable', "/admin/merchants/#{merchant.id}", method: :patch if !merchant.enabled? %>
